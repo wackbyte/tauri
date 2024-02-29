@@ -98,12 +98,12 @@ mod windows {
   const MESSAGE_MOUSEDOWN: &str = "__internal_on_mousedown__|";
   pub const SCRIPT: &str = r#"
 ;(function () {
-  document.addEventListener('mousemove', (e) => {
+  window.addEventListener('mousemove', (e) => {
     window.ipc.postMessage(
       `__internal_on_mousemove__|${e.clientX},${e.clientY}`
     )
   })
-  document.addEventListener('mousedown', (e) => {
+  window.addEventListener('mousedown', (e) => {
     if (e.button === 0) {
       window.ipc.postMessage(
         `__internal_on_mousedown__|${e.clientX},${e.clientY}`

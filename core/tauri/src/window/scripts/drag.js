@@ -20,7 +20,11 @@
       // and was left mouse button
       e.button === 0 &&
       // and was normal click to drag or double click to maximize
-      (e.detail === 1 || e.detail === 2)
+      (e.detail === 1 || e.detail === 2) &&
+      e.clientY > 1 &&
+      e.clientX > 1 &&
+      e.clientY < window.innerHeight - 1 &&
+      e.clientX < window.innerWidth - 1
     ) {
       // macOS maximization happens on `mouseup`,
       // so we save needed state and early return
