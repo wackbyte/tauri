@@ -123,17 +123,370 @@ impl<'a, R: Runtime> CommandArg<'a, R> for Request<'a> {
   }
 }
 
+#[derive(Debug)]
+struct BinaryCheckError;
+impl std::error::Error for BinaryCheckError {}
+impl serde::ser::Error for BinaryCheckError {
+  fn custom<T: std::fmt::Display>(_msg: T) -> Self {
+    Self
+  }
+}
+impl std::fmt::Display for BinaryCheckError {
+  fn fmt(&self, formatter: &'_ mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    formatter.write_str("BinaryCheckError")
+  }
+}
+
+struct BinaryCheck {
+  value: Option<Vec<u8>>,
+}
+impl<'a> serde::ser::Serializer for &'a mut BinaryCheck {
+  type Ok = ();
+  type Error = BinaryCheckError;
+  type SerializeSeq = Self;
+  type SerializeTuple = Self;
+  type SerializeTupleStruct = Self;
+  type SerializeTupleVariant = Self;
+  type SerializeMap = Self;
+  type SerializeStruct = Self;
+  type SerializeStructVariant = Self;
+
+  fn serialize_bool(self, _v: bool) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_i8(self, _v: i8) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_i16(self, _v: i16) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_i32(self, _v: i32) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_i64(self, _v: i64) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_u8(self, v: u8) -> Result<Self::Ok, Self::Error> {
+    //dbg!("s");
+    if let Some(value) = &mut self.value {
+      //dbg!("ok");
+      value.push(v);
+      return Ok(());
+    }
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_u16(self, _v: u16) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_u32(self, _v: u32) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_u64(self, _v: u64) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_f32(self, _v: f32) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_f64(self, _v: f64) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_char(self, _v: char) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_str(self, _v: &str) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_bytes(self, v: &[u8]) -> Result<Self::Ok, Self::Error> {
+    self.value = Some(v.to_vec());
+    println!("ser_bytes");
+    Ok(())
+  }
+
+  fn serialize_none(self) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_some<T: ?Sized>(self, _value: &T) -> Result<Self::Ok, Self::Error>
+  where
+    T: Serialize,
+  {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_unit(self) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_unit_struct(self, _name: &'static str) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_unit_variant(
+    self,
+    _name: &'static str,
+    _variant_index: u32,
+    _variant: &'static str,
+  ) -> Result<Self::Ok, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_newtype_struct<T: ?Sized>(
+    self,
+    _name: &'static str,
+    _value: &T,
+  ) -> Result<Self::Ok, Self::Error>
+  where
+    T: Serialize,
+  {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_newtype_variant<T: ?Sized>(
+    self,
+    _name: &'static str,
+    _variant_index: u32,
+    _variant: &'static str,
+    _value: &T,
+  ) -> Result<Self::Ok, Self::Error>
+  where
+    T: Serialize,
+  {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq, Self::Error> {
+    self.value = Some(Vec::with_capacity(len.unwrap_or(1024)));
+    dbg!("s");
+    Ok(self)
+  }
+
+  fn serialize_tuple(self, _len: usize) -> Result<Self::SerializeTuple, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_tuple_struct(
+    self,
+    _name: &'static str,
+    _len: usize,
+  ) -> Result<Self::SerializeTupleStruct, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_tuple_variant(
+    self,
+    _name: &'static str,
+    _variant_index: u32,
+    _variant: &'static str,
+    _len: usize,
+  ) -> Result<Self::SerializeTupleVariant, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_map(self, _len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_struct(
+    self,
+    _name: &'static str,
+    _len: usize,
+  ) -> Result<Self::SerializeStruct, Self::Error> {
+    Err(BinaryCheckError)
+  }
+
+  fn serialize_struct_variant(
+    self,
+    _name: &'static str,
+    _variant_index: u32,
+    _variant: &'static str,
+    _len: usize,
+  ) -> Result<Self::SerializeStructVariant, Self::Error> {
+    dbg!("s");
+    Err(BinaryCheckError)
+  }
+}
+
+impl<'a> serde::ser::SerializeSeq for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_element<T: ?Sized + Serialize>(&mut self, value: &T) -> Result<(), Self::Error> {
+    value.serialize(&mut **self)
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    Ok(())
+  }
+}
+
+impl<'a> serde::ser::SerializeTuple for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_element<T: ?Sized + Serialize>(&mut self, _value: &T) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    unimplemented!()
+  }
+}
+
+impl<'a> serde::ser::SerializeTupleStruct for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_field<T: ?Sized + Serialize>(&mut self, _value: &T) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    unimplemented!()
+  }
+}
+
+impl<'a> serde::ser::SerializeTupleVariant for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_field<T: ?Sized + Serialize>(&mut self, _value: &T) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    unimplemented!()
+  }
+}
+
+impl<'a> serde::ser::SerializeMap for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_key<T: ?Sized + Serialize>(&mut self, _key: &T) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  // It doesn't make a difference whether the colon is printed at the end of
+  // `serialize_key` or at the beginning of `serialize_value`. In this case
+  // the code is a bit simpler having it here.
+  fn serialize_value<T: ?Sized + Serialize>(&mut self, _value: &T) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+}
+
+impl<'a> serde::ser::SerializeStruct for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_field<T: ?Sized + Serialize>(
+    &mut self,
+    _key: &'static str,
+    _value: &T,
+  ) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    unimplemented!()
+  }
+}
+
+impl<'a> serde::ser::SerializeStructVariant for &'a mut BinaryCheck {
+  // Must match the `Ok` type of the serializer.
+  type Ok = ();
+  // Must match the `Error` type of the serializer.
+  type Error = BinaryCheckError;
+
+  fn serialize_field<T: ?Sized + Serialize>(
+    &mut self,
+    _key: &'static str,
+    _value: &T,
+  ) -> Result<(), Self::Error> {
+    unimplemented!()
+  }
+
+  fn end(self) -> Result<Self::Ok, Self::Error> {
+    unimplemented!()
+  }
+}
+
 /// Marks a type as a response to an IPC call.
 pub trait IpcResponse {
   /// Resolve the IPC response body.
   fn body(self) -> crate::Result<InvokeBody>;
 }
 
-impl<T: Serialize> IpcResponse for T {
+/* impl<T: Serialize> IpcResponse for T {
   fn body(self) -> crate::Result<InvokeBody> {
     serde_json::to_value(self)
       .map(Into::into)
       .map_err(Into::into)
+  }
+} */
+
+impl<T: Serialize> IpcResponse for T {
+  fn body(self) -> crate::Result<InvokeBody> {
+    let mut serializer = BinaryCheck { value: None };
+
+    if self.serialize(&mut serializer).is_ok() && serializer.value.is_some() {
+      Ok(InvokeBody::Raw(serializer.value.unwrap()))
+    } else {
+      serde_json::to_value(self)
+        .map(Into::into)
+        .map_err(Into::into)
+    }
   }
 }
 
