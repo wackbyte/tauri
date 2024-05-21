@@ -1,5 +1,23 @@
 # Changelog
 
+## \[2.0.0-beta.20]
+
+### New Features
+
+- [`ec0e092ec`](https://www.github.com/tauri-apps/tauri/commit/ec0e092ecd23b547c756c7476f23a0d95be6db80)([#9770](https://www.github.com/tauri-apps/tauri/pull/9770)) Add `App/AppHandle/Window/Webview/WebviewWindow::monitor_from_point(x, y)` getter to get the monitor from a given point.
+
+### Enhancements
+
+- [`5d20530c9`](https://www.github.com/tauri-apps/tauri/commit/5d20530c91495e548ecc9cb4369da09977a9a962)([#9842](https://www.github.com/tauri-apps/tauri/pull/9842)) Added `AppHandle::set_activation_policy` for macOS.
+
+### Dependencies
+
+- Upgraded to `tauri-utils@2.0.0-beta.16`
+- Upgraded to `tauri-runtime@2.0.0-beta.17`
+- Upgraded to `tauri-runtime-wry@2.0.0-beta.17`
+- Upgraded to `tauri-macros@2.0.0-beta.16`
+- Upgraded to `tauri-build@2.0.0-beta.16`
+
 ## \[2.0.0-beta.19]
 
 ### New Features

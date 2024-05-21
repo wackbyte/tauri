@@ -1,5 +1,16 @@
 # Changelog
 
+## \[2.0.0-beta.18]
+
+### Bug Fixes
+
+- [`4a33bc6a6`](https://www.github.com/tauri-apps/tauri/commit/4a33bc6a62d2ed9371191c8a7f78ff3f33930455)([#9553](https://www.github.com/tauri-apps/tauri/pull/9553)) Fixes `pnpm` detection when initializing and running a mobile project.
+
+### Dependencies
+
+- Upgraded to `tauri-bundler@2.0.1-beta.14`
+- Upgraded to `tauri-utils@2.0.0-beta.16`
+
 ## \[2.0.0-beta.17]
 
 ### Dependencies
